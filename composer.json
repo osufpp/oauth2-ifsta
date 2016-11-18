@@ -19,6 +19,7 @@
     ],
     "minimum-stability": "beta",
     "require": {
+        "php": ">=5.5.0",
         "league/oauth2-client": "~1.0"
     },
     "require-dev": {
@@ -28,12 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "League\\OAuth2\\Client\\": "src/"
+            "Osufpp\\OAuth2\\Client\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "League\\OAuth2\\Client\\Test\\": "tests/src/"
+            "Osufpp\\OAuth2\\Client\\Test\\": "tests/src/"
         }
     }
 }

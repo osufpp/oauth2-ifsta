@@ -1,6 +1,6 @@
-<?php
+<?php namespace Osufpp\OAuth2\Client\Provider;
 
-namespace Osufpp\OAuth2\Client\Provider;
+use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 
 class IfstaUser implements ResourceOwnerInterface {
     /**
