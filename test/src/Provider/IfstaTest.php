@@ -70,34 +70,29 @@ class IfstaTest extends \PHPUnit_Framework_TestCase {
         $familyName = uniqid();
         $givenName = uniqid();
         $displayName = uniqid();
-        $nickname = uniqid();
         $email = uniqid();
         $imageUrl = uniqid();
-        $postResponse = m::mock('Psr\Http\Message\ResponseInterface');
-        $postResponse->shouldReceive('getBody')->andReturn('access_token=mock_access_token&expires=3600&refresh_token=mock_refresh_token&otherKey={1234}');
-        $postResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'application/x-www-form-urlencoded']);
-        $postResponse->shouldReceive('getStatusCode')->andReturn(200);
-        $userResponse = m::mock('Psr\Http\Message\ResponseInterface');
-        $userResponse->shouldReceive('getBody')->andReturn('{"id": ' . $userId . ', "login": "' . $nickname . '", "name": "' . $displayName . '", "email": "' . $email . '"}');
-        $userResponse->shouldReceive('getBody')->andReturn('{"emails": [{"value": "' . $email . '"}],"id": ' . $userId . ',"displayName": "' . $displayName . '","name": {"familyName": "' . $familyName . '","givenName": "' . $givenName . '"},"photos": [{"value": "' . $imageUrl . '"}]}');
-        $userResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
-        $userResponse->shouldReceive('getStatusCode')->andReturn(200);
-        $client = m::mock('GuzzleHttp\ClientInterface');
-        $client->shouldReceive('send')
-            ->times(2)
-            ->andReturn($postResponse, $userResponse);
-        $this->provider->setHttpClient($client);
-        $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
-        $user = $this->provider->getResourceOwner($token);
+        $response = json_decode('{"emails": [{"value": "' . $email . '"}],"id": ' . $userId . ',"displayName": "' . $displayName . '","name": {"familyName": "' . $familyName . '","givenName": "' . $givenName . '"},"photos": [{"value": "' . $imageUrl . '"}]}', true);
+        $provider = m::mock('Osufpp\OAuth2\Client\Provider\Ifsta[fetchResourceOwnerDetails]')
+            ->shouldAllowMockingProtectedMethods();
+        $provider->shouldReceive('fetchResourceOwnerDetails')
+            ->times(1)
+            ->andReturn($response);
+        $token = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $user = $provider->getResourceOwner($token);
+        $this->assertInstanceOf('League\OAuth2\Client\Provider\ResourceOwnerInterface', $user);
         $this->assertEquals($userId, $user->getId());
-        $this->assertEquals($userId, $user->toArray()['id']);
         $this->assertEquals($displayName, $user->getName());
-        $this->assertEquals($displayName, $user->toArray()['name']);
-        $this->assertEquals($nickname, $user->getNickname());
-        $this->assertEquals($nickname, $user->toArray()['login']);
+        $this->assertEquals($givenName, $user->getFirstName());
+        $this->assertEquals($familyName, $user->getLastName());
         $this->assertEquals($email, $user->getEmail());
-        $this->assertEquals($email, $user->toArray()['email']);
-        $this->assertContains($nickname, $user->getUrl());
+        $this->assertEquals($imageUrl, $user->getAvatar());
+        $user = $user->toArray();
+        $this->assertArrayHasKey('id', $user);
+        $this->assertArrayHasKey('displayName', $user);
+        $this->assertArrayHasKey('emails', $user);
+        $this->assertArrayHasKey('photos', $user);
+        $this->assertArrayHasKey('name', $user);
     }
 
     public function testUserEmails() {
