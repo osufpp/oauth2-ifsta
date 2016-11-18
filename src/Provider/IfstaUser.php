@@ -64,7 +64,7 @@ class IfstaUser implements ResourceOwnerInterface {
      */
     public function getAvatar() {
         if (!empty($this->response['photos'])) {
-            return $this->response['photos'][0]['url'];
+            return $this->response['photos'][0]['value'];
         }
     }
 
