@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use League\OAuth2\Client\Provider\Google;
+use Osufpp\OAuth2\Client\Provider\Ifsta;
 
 // Replace these with your token settings
 // Create a project at https://console.developers.google.com/

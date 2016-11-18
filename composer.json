@@ -1,12 +1,12 @@
 {
-    "name": "league/oauth2-google",
-    "description": "Google OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
+    "name": "osufpp/oauth2-ifsta",
+    "description": "IFSTA OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
     "license": "MIT",
     "authors": [
         {
-            "name": "Woody Gilk",
-            "email": "woody.gilk@gmail.com",
-            "homepage": "http://shadowhand.me"
+            "name": "Aaron Bean",
+            "email": "aaron.bean@beardon.com",
+            "homepage": "https://github.com/aaronbean"
         }
     ],
     "keywords": [
@@ -15,7 +15,7 @@
         "client",
         "authorization",
         "authentication",
-        "google"
+        "ifsta"
     ],
     "minimum-stability": "beta",
     "require": {

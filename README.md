@@ -1,4 +1,4 @@
-# Google Provider for OAuth 2.0 Client
+# IFSTA Provider for OAuth 2.0 Client
 
 [![Join the chat](https://img.shields.io/badge/gitter-join-1DCE73.svg)](https://gitter.im/thephpleague/oauth2-google)
 [![Build Status](https://img.shields.io/travis/thephpleague/oauth2-google.svg)](https://travis-ci.org/thephpleague/oauth2-google)
@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/packagist/l/league/oauth2-google.svg)](https://github.com/thephpleague/oauth2-google/blob/master/LICENSE)
 [![Latest Stable Version](https://img.shields.io/packagist/v/league/oauth2-google.svg)](https://packagist.org/packages/league/oauth2-google)
 
-This package provides Google OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client).
+This package provides IFSTA OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client).
 
 This package is compliant with [PSR-1][], [PSR-2][] and [PSR-4][]. If you notice compliance oversights, please send
 a patch via pull request.
@@ -30,7 +30,7 @@ The following versions of PHP are supported.
 To install, use composer:
 
 ```
-composer require league/oauth2-google
+composer require osufpp/oauth2-ifsta
 ```
 
 ## Usage
@@ -38,7 +38,7 @@ composer require league/oauth2-google
 ### Authorization Code Flow
 
 ```php
-$provider = new League\OAuth2\Client\Provider\Google([
+$provider = new Osufpp\OAuth2\Client\Provider\Ifsta([
     'clientId'     => '{google-app-id}',
     'clientSecret' => '{google-app-secret}',
     'redirectUri'  => 'https://example.com/callback-url',
@@ -98,49 +98,6 @@ if (!empty($_GET['error'])) {
 }
 ```
 
-### Refreshing a Token
-
-Refresh tokens are only provided to applications which request offline access. You can specify offline access by setting the `accessType` option in your provider:
-
-```php
-$provider = new League\OAuth2\Client\Provider\Google([
-    'clientId'     => '{google-app-id}',
-    'clientSecret' => '{google-app-secret}',
-    'redirectUri'  => 'https://example.com/callback-url',
-    'accessType'   => 'offline',
-]);
-```
-
-It is important to note that the refresh token is only returned on the first request after this it will be `null`. You should securely store the refresh token when it is returned:
-
-```php
-$token = $provider->getAccessToken('authorization_code', [
-    'code' => $code
-]);
-
-// persist the token in a database
-$refreshToken = $token->getRefreshToken();
-```
-
-If you ever need to get a new refresh token you can request one by forcing the approval prompt:
-
-```php
-$authUrl = $provider->getAuthorizationUrl(['approval_prompt' => 'force']);
-```
-
-Now you have everything you need to refresh an access token using a refresh token:
-
-```php
-$provider = new League\OAuth2\Client\Provider\Google([
-    'clientId'     => '{google-app-id}',
-    'clientSecret' => '{google-app-secret}',
-    'redirectUri'  => 'https://example.com/callback-url',
-]);
-
-$grant = new League\OAuth2\Client\Grant\RefreshToken();
-$token = $provider->getAccessToken($grant, ['refresh_token' => $refreshToken]);
-```
-
 ## Testing
 
 ``` bash
@@ -149,13 +106,13 @@ $ ./vendor/bin/phpunit
 
 ## Contributing
 
-Please see [CONTRIBUTING](https://github.com/thephpleague/oauth2-google/blob/master/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](https://github.com/osufpp/oauth2-ifsta/blob/master/CONTRIBUTING.md) for details.
 
 
 ## Credits
 
-- [Woody Gilk](https://github.com/shadowhand)
-- [All Contributors](https://github.com/thephpleague/oauth2-google/contributors)
+- [Aaron Bean](https://github.com/aaronbean)
+- [All Contributors](https://github.com/osufpp/oauth2-ifsta/contributors)
 
 
 ## License
