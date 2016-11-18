@@ -4,11 +4,13 @@ namespace Osufpp\OAuth2\Client\Test\Provider;
 
 use Mockery as m;
 
+use Osufpp\OAuth2\Client\Provider\Ifsta as OauthProvider;
+
 class IfstaTest extends \PHPUnit_Framework_TestCase {
     protected $provider;
 
     protected function setUp() {
-        $this->provider = new Osufpp\OAuth2\Client\Provider\Ifsta([
+        $this->provider = new OauthProvider([
             'clientId' => 'mock_client_id',
             'clientSecret' => 'mock_secret',
             'redirectUri' => 'none',
