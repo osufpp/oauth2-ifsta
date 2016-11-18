@@ -67,15 +67,19 @@ class IfstaTest extends \PHPUnit_Framework_TestCase {
 
     public function testUserData() {
         $userId = rand(1000, 9999);
-        $name = uniqid();
+        $familyName = uniqid();
+        $givenName = uniqid();
+        $displayName = uniqid();
         $nickname = uniqid();
         $email = uniqid();
+        $imageUrl = uniqid();
         $postResponse = m::mock('Psr\Http\Message\ResponseInterface');
         $postResponse->shouldReceive('getBody')->andReturn('access_token=mock_access_token&expires=3600&refresh_token=mock_refresh_token&otherKey={1234}');
         $postResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'application/x-www-form-urlencoded']);
         $postResponse->shouldReceive('getStatusCode')->andReturn(200);
         $userResponse = m::mock('Psr\Http\Message\ResponseInterface');
-        $userResponse->shouldReceive('getBody')->andReturn('{"id": ' . $userId . ', "login": "' . $nickname . '", "name": "' . $name . '", "email": "' . $email . '"}');
+        $userResponse->shouldReceive('getBody')->andReturn('{"id": ' . $userId . ', "login": "' . $nickname . '", "name": "' . $displayName . '", "email": "' . $email . '"}');
+        $userResponse->shouldReceive('getBody')->andReturn('{"emails": [{"value": "' . $email . '"}],"id": ' . $userId . ',"displayName": "' . $displayName . '","name": {"familyName": "' . $familyName . '","givenName": "' . $givenName . '"},"photos": [{"value": "' . $imageUrl . '"}]}');
         $userResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
         $userResponse->shouldReceive('getStatusCode')->andReturn(200);
         $client = m::mock('GuzzleHttp\ClientInterface');
@@ -87,8 +91,8 @@ class IfstaTest extends \PHPUnit_Framework_TestCase {
         $user = $this->provider->getResourceOwner($token);
         $this->assertEquals($userId, $user->getId());
         $this->assertEquals($userId, $user->toArray()['id']);
-        $this->assertEquals($name, $user->getName());
-        $this->assertEquals($name, $user->toArray()['name']);
+        $this->assertEquals($displayName, $user->getName());
+        $this->assertEquals($displayName, $user->toArray()['name']);
         $this->assertEquals($nickname, $user->getNickname());
         $this->assertEquals($nickname, $user->toArray()['login']);
         $this->assertEquals($email, $user->getEmail());
