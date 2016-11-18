@@ -1,6 +1,6 @@
 <?php
 
-namespace League\OAuth2\Client\Test\Provider;
+namespace Osufpp\OAuth2\Client\Test\Provider;
 
 use Mockery as m;
 
