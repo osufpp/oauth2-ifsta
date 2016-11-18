@@ -2,7 +2,8 @@
 
 use League\OAuth2\Client\Provider\ResourceOwnerInterface;
 
-class IfstaUser implements ResourceOwnerInterface {
+class IfstaUser implements ResourceOwnerInterface
+{
     /**
      * @var array
      */
