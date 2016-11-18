@@ -6,7 +6,8 @@ use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Psr\Http\Message\ResponseInterface;
 
-class Ifsta extends AbstractProvider {
+class Ifsta extends AbstractProvider
+{
     use BearerAuthorizationTrait;
 
     /**
@@ -21,7 +22,8 @@ class Ifsta extends AbstractProvider {
      *
      * @return string
      */
-    public function getBaseAuthorizationUrl() {
+    public function getBaseAuthorizationUrl()
+    {
         return $this->domain . '/dialog/authorize';
     }
 
@@ -31,7 +33,8 @@ class Ifsta extends AbstractProvider {
      * @param array $params
      * @return string
      */
-    public function getBaseAccessTokenUrl(array $params) {
+    public function getBaseAccessTokenUrl(array $params)
+    {
         return $this->domain . '/oauth/token';
     }
 
@@ -41,7 +44,8 @@ class Ifsta extends AbstractProvider {
      * @param AccessToken $token
      * @return string
      */
-    public function getResourceOwnerDetailsUrl(AccessToken $token) {
+    public function getResourceOwnerDetailsUrl(AccessToken $token)
+    {
         return $this->domain . '/api/userinfo';
     }
 
@@ -53,7 +57,8 @@ class Ifsta extends AbstractProvider {
      *
      * @return array
      */
-    protected function getDefaultScopes() {
+    protected function getDefaultScopes()
+    {
         return [];
     }
 
@@ -65,7 +70,8 @@ class Ifsta extends AbstractProvider {
      * @param  string $data Parsed response data
      * @return void
      */
-    protected function checkResponse(ResponseInterface $response, $data) {
+    protected function checkResponse(ResponseInterface $response, $data)
+    {
         if (!empty($data['error'])) {
             $code = 0;
             $error = $data['error'];
@@ -84,8 +90,8 @@ class Ifsta extends AbstractProvider {
      * @param AccessToken $token
      * @return IfstaUser
      */
-    protected function createResourceOwner(array $response, AccessToken $token) {
+    protected function createResourceOwner(array $response, AccessToken $token)
+    {
         return new IfstaUser($response);
     }
-
 }

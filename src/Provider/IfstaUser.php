@@ -11,11 +11,13 @@ class IfstaUser implements ResourceOwnerInterface {
     /**
      * @param array $response
      */
-    public function __construct(array $response) {
+    public function __construct(array $response)
+    {
         $this->response = $response;
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->response['id'];
     }
 
@@ -24,7 +26,8 @@ class IfstaUser implements ResourceOwnerInterface {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->response['displayName'];
     }
 
@@ -33,7 +36,8 @@ class IfstaUser implements ResourceOwnerInterface {
      *
      * @return string
      */
-    public function getFirstName() {
+    public function getFirstName()
+    {
         return $this->response['name']['givenName'];
     }
 
@@ -42,7 +46,8 @@ class IfstaUser implements ResourceOwnerInterface {
      *
      * @return string
      */
-    public function getLastName() {
+    public function getLastName()
+    {
         return $this->response['name']['familyName'];
     }
 
@@ -51,7 +56,8 @@ class IfstaUser implements ResourceOwnerInterface {
      *
      * @return string|null
      */
-    public function getEmail() {
+    public function getEmail()
+    {
         if (!empty($this->response['emails'])) {
             return $this->response['emails'][0]['value'];
         }
@@ -62,7 +68,8 @@ class IfstaUser implements ResourceOwnerInterface {
      *
      * @return string|null
      */
-    public function getAvatar() {
+    public function getAvatar()
+    {
         if (!empty($this->response['photos'])) {
             return $this->response['photos'][0]['value'];
         }
@@ -73,7 +80,8 @@ class IfstaUser implements ResourceOwnerInterface {
      *
      * @return array
      */
-    public function toArray() {
+    public function toArray()
+    {
         return $this->response;
     }
 }
