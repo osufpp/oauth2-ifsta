@@ -1,11 +1,11 @@
 # IFSTA Provider for OAuth 2.0 Client
 
-[![Join the chat](https://img.shields.io/badge/gitter-join-1DCE73.svg)](https://gitter.im/thephpleague/oauth2-google)
-[![Build Status](https://img.shields.io/travis/thephpleague/oauth2-google.svg)](https://travis-ci.org/thephpleague/oauth2-google)
-[![Code Coverage](https://img.shields.io/coveralls/thephpleague/oauth2-google.svg)](https://coveralls.io/r/thephpleague/oauth2-google)
+[![Join the chat](https://img.shields.io/badge/gitter-join-1DCE73.svg)](https://gitter.im/osufpp/oauth2-ifsta)
+[![Build Status](https://img.shields.io/travis/osufpp/oauth2-ifsta.svg)](https://travis-ci.org/osufpp/oauth2-ifsta)
+[![Code Coverage](https://img.shields.io/coveralls/osufpp/oauth2-ifsta.svg)](https://coveralls.io/r/osufpp/oauth2-ifsta)
 [![Code Quality](https://img.shields.io/scrutinizer/g/thephpleague/oauth2-google.svg)](https://scrutinizer-ci.com/g/thephpleague/oauth2-google/)
-[![License](https://img.shields.io/packagist/l/league/oauth2-google.svg)](https://github.com/thephpleague/oauth2-google/blob/master/LICENSE)
-[![Latest Stable Version](https://img.shields.io/packagist/v/league/oauth2-google.svg)](https://packagist.org/packages/league/oauth2-google)
+[![License](https://img.shields.io/packagist/l/osufpp/oauth2-ifsta.svg)](https://github.com/osufpp/oauth2-ifsta/blob/master/LICENSE)
+[![Latest Stable Version](https://img.shields.io/packagist/v/osufpp/oauth2-ifsta.svg)](https://packagist.org/packages/osufpp/oauth2-ifsta)
 
 This package provides IFSTA OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client).
 
