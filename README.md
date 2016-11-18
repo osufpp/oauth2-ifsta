@@ -39,8 +39,8 @@ composer require osufpp/oauth2-ifsta
 
 ```php
 $provider = new Osufpp\OAuth2\Client\Provider\Ifsta([
-    'clientId'     => '{google-app-id}',
-    'clientSecret' => '{google-app-secret}',
+    'clientId'     => '{ifsta-client-id}',
+    'clientSecret' => '{ifsta-client-secret}',
     'redirectUri'  => 'https://example.com/callback-url',
     'hostedDomain' => 'https://example.com',
 ]);
