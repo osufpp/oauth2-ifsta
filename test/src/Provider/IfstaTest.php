@@ -8,7 +8,7 @@ class IfstaTest extends \PHPUnit_Framework_TestCase {
     protected $provider;
 
     protected function setUp() {
-        $this->provider = new \Osufpp\OAuth2\Client\Provider\Ifsta([
+        $this->provider = new Osufpp\OAuth2\Client\Provider\Ifsta([
             'clientId' => 'mock_client_id',
             'clientSecret' => 'mock_secret',
             'redirectUri' => 'none',
