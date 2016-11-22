@@ -39,7 +39,7 @@ class IfstaTest extends \PHPUnit_Framework_TestCase {
 
     public function testGetAccessToken() {
         $response = m::mock('Guzzle\Http\Message\Response');
-        $response->shouldReceive('getBody')->times(1)->andReturn('access_token=mock_access_token&expires=3600&refresh_token=mock_refresh_token&uid=1');
+        $response->shouldReceive('getBody')->times(1)->andReturn('{"access_token": "mock_access_token", "expires": 3600, "refresh_token": "mock_refresh_token", "uid": 1}');
         $client = m::mock('Guzzle\Service\Client');
         $client->shouldReceive('setBaseUrl')->times(1);
         $client->shouldReceive('post->send')->times(1)->andReturn($response);
@@ -50,38 +50,6 @@ class IfstaTest extends \PHPUnit_Framework_TestCase {
         $this->assertGreaterThanOrEqual(time(), $token->expires);
         $this->assertEquals('mock_refresh_token', $token->refreshToken);
         $this->assertEquals('1', $token->uid);
-    }
-
-    /**
-     * @ticket 230
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Required option not passed: access_token
-     */
-    public function testGetAccessTokenWithInvalidJson() {
-        $response = m::mock('Guzzle\Http\Message\Response');
-        $response->shouldReceive('getBody')->times(1)->andReturn('invalid');
-        $client = m::mock('Guzzle\Service\Client');
-        $client->shouldReceive('setBaseUrl')->times(1);
-        $client->shouldReceive('post->send')->times(1)->andReturn($response);
-        $this->provider->setHttpClient($client);
-        $this->provider->responseType = 'json';
-        $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
-    }
-
-    public function testGetAccessTokenSetResultUid() {
-        $this->provider->uidKey = 'otherKey';
-        $response = m::mock('Guzzle\Http\Message\Response');
-        $response->shouldReceive('getBody')->times(1)->andReturn('access_token=mock_access_token&expires=3600&refresh_token=mock_refresh_token&otherKey={1234}');
-        $client = m::mock('Guzzle\Service\Client');
-        $client->shouldReceive('setBaseUrl')->times(1);
-        $client->shouldReceive('post->send')->times(1)->andReturn($response);
-        $this->provider->setHttpClient($client);
-        $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
-        $this->assertEquals('mock_access_token', $token->accessToken);
-        $this->assertLessThanOrEqual(time() + 3600, $token->expires);
-        $this->assertGreaterThanOrEqual(time(), $token->expires);
-        $this->assertEquals('mock_refresh_token', $token->refreshToken);
-        $this->assertEquals('{1234}', $token->uid);
     }
 
     public function testScopes() {
@@ -103,7 +71,7 @@ class IfstaTest extends \PHPUnit_Framework_TestCase {
             ->times(1)
             ->andReturn($response);
         $token = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $user = $provider->getUserDetails($token);
+        $user = $this->provider->getUserDetails($token);
         $this->assertInstanceOf('League\OAuth2\Client\Entity\User', $user);
         $this->assertEquals($userId, $user['uid']);
         $this->assertEquals($displayName, $user['name']);
