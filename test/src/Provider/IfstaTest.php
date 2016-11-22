@@ -19,7 +19,7 @@ class IfstaTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testAuthorizationUrl() {
-        $url = $this->provider->urlAuthorize();
+        $url = $this->provider->getAuthorizationUrl();
         $uri = parse_url($url);
         parse_str($uri['query'], $query);
         $this->assertArrayHasKey('client_id', $query);
@@ -79,7 +79,7 @@ class IfstaTest extends \PHPUnit_Framework_TestCase {
             ->times(1)
             ->andReturn($response);
         $token = m::mock('League\OAuth2\Client\Token\AccessToken');
-        $user = $provider->getResourceOwner($token);
+        $user = $provider->getUserDetails($token);
         $this->assertInstanceOf('League\OAuth2\Client\Entity\User', $user);
         $this->assertEquals($userId, $user['uid']);
         $this->assertEquals($displayName, $user['name']);
