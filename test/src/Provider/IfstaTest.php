@@ -80,19 +80,13 @@ class IfstaTest extends \PHPUnit_Framework_TestCase {
             ->andReturn($response);
         $token = m::mock('League\OAuth2\Client\Token\AccessToken');
         $user = $provider->getResourceOwner($token);
-        $this->assertInstanceOf('League\OAuth2\Client\Provider\ResourceOwnerInterface', $user);
-        $this->assertEquals($userId, $user->getId());
-        $this->assertEquals($displayName, $user->getName());
-        $this->assertEquals($givenName, $user->getFirstName());
-        $this->assertEquals($familyName, $user->getLastName());
-        $this->assertEquals($email, $user->getEmail());
-        $this->assertEquals($imageUrl, $user->getAvatar());
-        $user = $user->toArray();
-        $this->assertArrayHasKey('id', $user);
-        $this->assertArrayHasKey('displayName', $user);
-        $this->assertArrayHasKey('emails', $user);
-        $this->assertArrayHasKey('photos', $user);
-        $this->assertArrayHasKey('name', $user);
+        $this->assertInstanceOf('League\OAuth2\Client\Entity\User', $user);
+        $this->assertEquals($userId, $user['uid']);
+        $this->assertEquals($displayName, $user['name']);
+        $this->assertEquals($givenName, $user['firstname']);
+        $this->assertEquals($familyName, $user['lastname']);
+        $this->assertEquals($email, $user['email']);
+        $this->assertEquals($imageUrl, $user['imageurl']);
     }
 
 }
