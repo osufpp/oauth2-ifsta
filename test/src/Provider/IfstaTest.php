@@ -64,21 +64,22 @@ class IfstaTest extends \PHPUnit_Framework_TestCase {
         $displayName = uniqid();
         $email = uniqid();
         $imageUrl = uniqid();
-        $response = json_decode('{"emails": [{"value": "' . $email . '"}],"id": ' . $userId . ',"displayName": "' . $displayName . '","name": {"familyName": "' . $familyName . '","givenName": "' . $givenName . '"},"photos": [{"value": "' . $imageUrl . '"}]}', true);
-        $provider = m::mock('Osufpp\OAuth2\Client\Provider\Ifsta[fetchResourceOwnerDetails]')
-            ->shouldAllowMockingProtectedMethods();
-        $provider->shouldReceive('fetchResourceOwnerDetails')
-            ->times(1)
-            ->andReturn($response);
-        $token = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $postResponse = m::mock('Guzzle\Http\Message\Response');
+        $postResponse->shouldReceive('getBody')->times(1)->andReturn('{"access_token": "mock_access_token", "expires": 3600, "refresh_token": "mock_refresh_token", "uid": 1}');
+        $getResponse = m::mock('Guzzle\Http\Message\Response');
+        $getResponse->shouldReceive('getBody')->times(4)->andReturn('{"emails": [{"value": "' . $email . '"}],"id": ' . $userId . ',"displayName": "' . $displayName . '","name": {"familyName": "' . $familyName . '","givenName": "' . $givenName . '"},"photos": [{"value": "' . $imageUrl . '"}]}');
+        $client = m::mock('Guzzle\Service\Client');
+        $client->shouldReceive('setBaseUrl')->times(5);
+        $client->shouldReceive('setDefaultOption')->times(4);
+        $client->shouldReceive('post->send')->times(1)->andReturn($postResponse);
+        $client->shouldReceive('get->send')->times(4)->andReturn($getResponse);
+        $this->provider->setHttpClient($client);
+        $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
         $user = $this->provider->getUserDetails($token);
-        $this->assertInstanceOf('League\OAuth2\Client\Entity\User', $user);
-        $this->assertEquals($userId, $user['uid']);
-        $this->assertEquals($displayName, $user['name']);
-        $this->assertEquals($givenName, $user['firstname']);
-        $this->assertEquals($familyName, $user['lastname']);
-        $this->assertEquals($email, $user['email']);
-        $this->assertEquals($imageUrl, $user['imageurl']);
+        $this->assertEquals(12345, $this->provider->getUserUid($token));
+        $this->assertEquals([$givenName, $familyName], $this->provider->getUserScreenName($token));
+        $this->assertEquals($email, $this->provider->getUserEmail($token));
+        $this->assertEquals($email, $user->email);
     }
 
     public function testGetAuthorizationUrl() {
