@@ -19,7 +19,7 @@ class IfstaTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testAuthorizationUrl() {
-        $url = $this->provider->getAuthorizationUrl();
+        $url = $this->provider->urlAuthorize();
         $uri = parse_url($url);
         parse_str($uri['query'], $query);
         $this->assertArrayHasKey('client_id', $query);
@@ -33,19 +33,19 @@ class IfstaTest extends \PHPUnit_Framework_TestCase {
 
     public function testScopes() {
         $options = ['scope' => [uniqid(), uniqid()]];
-        $url = $this->provider->getAuthorizationUrl($options);
+        $url = $this->provider->urlAuthorize($options);
         $this->assertContains(urlencode(implode(',', $options['scope'])), $url);
     }
 
     public function testGetAuthorizationUrl() {
-        $url = $this->provider->getAuthorizationUrl();
+        $url = $this->provider->urlAuthorize();
         $uri = parse_url($url);
         $this->assertEquals('/dialog/authorize', $uri['path']);
     }
 
     public function testGetBaseAccessTokenUrl() {
         $params = [];
-        $url = $this->provider->getBaseAccessTokenUrl($params);
+        $url = $this->provider->urlAccessToken($params);
         $uri = parse_url($url);
         $this->assertEquals('/oauth/token', $uri['path']);
     }
@@ -58,7 +58,7 @@ class IfstaTest extends \PHPUnit_Framework_TestCase {
         $client = m::mock('GuzzleHttp\ClientInterface');
         $client->shouldReceive('send')->times(1)->andReturn($response);
         $this->provider->setHttpClient($client);
-        $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
+        $token = $this->provider->urlAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
         $this->assertEquals('mock_access_token', $token->getToken());
         $this->assertNull($token->getExpires());
         $this->assertNull($token->getRefreshToken());
