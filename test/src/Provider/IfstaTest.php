@@ -70,7 +70,6 @@ class IfstaTest extends \PHPUnit_Framework_TestCase {
         $getResponse->shouldReceive('getBody')->times(2)->andReturn('{"emails": [{"value": "' . $email . '"}],"id": ' . $userId . ',"displayName": "' . $displayName . '","name": {"familyName": "' . $familyName . '","givenName": "' . $givenName . '"},"photos": [{"value": "' . $imageUrl . '"}]}');
         $client = m::mock('Guzzle\Service\Client');
         $client->shouldReceive('setBaseUrl')->times(3);
-        $client->shouldReceive('setDefaultOption')->times(4);
         $client->shouldReceive('post->send')->times(1)->andReturn($postResponse);
         $client->shouldReceive('get->send')->times(4)->andReturn($getResponse);
         $this->provider->setHttpClient($client);
