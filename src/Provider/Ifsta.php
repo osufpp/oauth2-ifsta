@@ -69,6 +69,5 @@ class Ifsta extends AbstractProvider
         ]);
 
         return $user;
-
     }
 }
