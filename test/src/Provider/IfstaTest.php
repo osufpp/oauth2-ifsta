@@ -67,7 +67,7 @@ class IfstaTest extends \PHPUnit_Framework_TestCase {
         $postResponse = m::mock('Guzzle\Http\Message\Response');
         $postResponse->shouldReceive('getBody')->times(1)->andReturn('{"access_token": "mock_access_token", "expires": 3600, "refresh_token": "mock_refresh_token", "uid": 1}');
         $getResponse = m::mock('Guzzle\Http\Message\Response');
-        $getResponse->shouldReceive('getBody')->times(4)->andReturn('{"emails": [{"value": "' . $email . '"}],"id": ' . $userId . ',"displayName": "' . $displayName . '","name": {"familyName": "' . $familyName . '","givenName": "' . $givenName . '"},"photos": [{"value": "' . $imageUrl . '"}]}');
+        $getResponse->shouldReceive('getBody')->times(2)->andReturn('{"emails": [{"value": "' . $email . '"}],"id": ' . $userId . ',"displayName": "' . $displayName . '","name": {"familyName": "' . $familyName . '","givenName": "' . $givenName . '"},"photos": [{"value": "' . $imageUrl . '"}]}');
         $client = m::mock('Guzzle\Service\Client');
         $client->shouldReceive('setBaseUrl')->times(5);
         $client->shouldReceive('setDefaultOption')->times(4);
