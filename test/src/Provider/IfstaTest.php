@@ -77,7 +77,7 @@ class IfstaTest extends \PHPUnit_Framework_TestCase {
         $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
         $user = $this->provider->getUserDetails($token);
         $this->assertEquals($userId, $this->provider->getUserUid($token));
-        $this->assertEquals($displayName, $this->provider->getUserScreenName($token));
+        $this->assertEquals((object)[$givenName, $familyName], $this->provider->getUserScreenName($token));
         $this->assertEquals($email, $this->provider->getUserEmail($token));
         $this->assertEquals($email, $user->email);
     }
