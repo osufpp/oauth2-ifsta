@@ -8,7 +8,7 @@ use League\OAuth2\Client\Token\AccessToken;
 
 class Ifsta extends AbstractProvider
 {
-    public $domain = 'https://auth-test.ifsta.org';
+    public $domain = 'https://auth.ifsta.org';
     public $uidKey = 'id';
 
     /**
